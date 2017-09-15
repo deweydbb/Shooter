@@ -17,3 +17,10 @@ C++ CHANGES:
 ANY OTHER CHANGES:
   NA
   
+9/14/17 7:55 David
+BLUEPRINT CHANGES:
+  NA
+C++ CHANGES
+  NA
+ANY OTHER CHANGES
+  Added potential gun moddels and starter player animations
