@@ -35,3 +35,10 @@ ANY OTHER CHANGES:
   Press escape to bring up the menu, and two buttons appear: options and exit game
   Curently options does nothing becasue we have no options.
   Exit game when pressed closes the game.
+  
+9/17/17
+BLUEPRINT CHANGES:
+Modified player blueprint so that the menu closes when escape is pressed.
+C++ CHANGES:
+ANY OTHER CHANGES:
+  Modified menu wiget so the buttons look less jenky
