@@ -42,3 +42,11 @@ Modified player blueprint so that the menu closes when escape is pressed.
 C++ CHANGES:
 ANY OTHER CHANGES:
   Modified menu wiget so the buttons look less jenky
+
+9/20/17
+BLUEPRINT CHANGES:
+  Beutified the menu and added shadows to the text
+C++ CHANGES:
+  NA
+ANY OTHER CHANGES:
+  NA
