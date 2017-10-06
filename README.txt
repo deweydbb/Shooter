@@ -50,3 +50,29 @@ C++ CHANGES:
   NA
 ANY OTHER CHANGES:
   NA
+
+9/26/17
+BLUEPRINT CHANGES:
+  NA
+C++ CHANGES:
+  NA
+ANY OTHER CHANGES:
+  Sam finally pulled with git lfs assets working.
+  Use insttructions here:
+	// Skip smudge
+	git lfs install --skip-smudge
+	
+	// Fresh clone of repo (master branch)
+	git clone my_repo_url
+
+	// Switch to Testing branch
+	git checkout Testing
+
+	// Fetch lfs files
+	git lfs fetch
+
+	// Really get the files
+	git lfs checkout
+
+	// Fix smudge
+	git lfs install --force
