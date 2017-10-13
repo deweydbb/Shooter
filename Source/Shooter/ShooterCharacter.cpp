@@ -45,6 +45,8 @@ AShooterCharacter::AShooterCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	team = true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -131,4 +133,8 @@ void AShooterCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void spawnChar() {
+
 }
