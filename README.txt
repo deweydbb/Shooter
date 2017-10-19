@@ -76,3 +76,12 @@ ANY OTHER CHANGES:
 
 	// Fix smudge
 	git lfs install --force
+	
+10/18/17 -David
+BLUEPRINT CHANGES:
+	Chanow will be making an update about the blueprint changes that occured more specifically about replication and networking
+C++ CHANGES:
+	NA
+ANY OTHER CHANGES:
+	We've kinda forgotten to do these, or atleast I did but we have been pushing
+	Made lots of changes to animations, including verticle aiming and switching to ironsights 
