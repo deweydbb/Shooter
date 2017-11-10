@@ -135,6 +135,6 @@ void AShooterCharacter::MoveRight(float Value)
 	}
 }
 
-void spawnChar() {
+void AShooterCharacter::spawnChar() {
 
 }
