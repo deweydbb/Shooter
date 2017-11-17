@@ -21,6 +21,9 @@ AShooterCharacter::AShooterCharacter()
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
+	gunOffset = FVector(100.0f, 0.0f, 10.0f);
+	//firePoint = GetSocketLocation("Muzzle");
+
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -58,6 +61,9 @@ void AShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	//fire action
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
@@ -136,5 +142,10 @@ void AShooterCharacter::MoveRight(float Value)
 }
 
 void AShooterCharacter::spawnChar() {
+
+}
+
+void AShooterCharacter::Fire()
+{
 
 }

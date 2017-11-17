@@ -34,6 +34,15 @@ public:
 	UFUNCTION()
 	void spawnChar();
 
+	UFUNCTION()
+	void Fire();
+
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class ASniperProjectile> ProjectileClass;
+
+	FVector gunOffset;
+	FVector firePoint;
+
 protected:
 
 	/** Resets HMD orientation in VR. */

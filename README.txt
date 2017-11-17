@@ -85,3 +85,8 @@ C++ CHANGES:
 ANY OTHER CHANGES:
 	We've kinda forgotten to do these, or atleast I did but we have been pushing
 	Made lots of changes to animations, including verticle aiming and switching to ironsights 
+11/16/17 - Sam Chanow
+Blueprint Chnages:
+	Derived new shooter projectile blueprint class.
+C++ Changes:
+	Fixed errors regarding projectile class 
