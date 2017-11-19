@@ -163,3 +163,8 @@ Blueprint Chnages:
 C++ Changes:
 	Fixed errors regarding projectile class, but there are still some persisting errors in regards
 	to firing projectiles as a whole 
+
+11/19/17 THANKSGIVING BREAK
+Blueprint Changes:
+	Changed sprinting so it relies on stamina. Max stamina: 100, Deduction rate .5 every .05 seconds.
+	Gain .5/3 stamina every .05 seconds. I added a widget that displays the stamina.
