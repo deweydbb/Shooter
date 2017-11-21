@@ -168,3 +168,9 @@ C++ Changes:
 Blueprint Changes:
 	Changed sprinting so it relies on stamina. Max stamina: 100, Deduction rate .5 every .05 seconds.
 	Gain .5/3 stamina every .05 seconds. I added a widget that displays the stamina.
+
+11/21/17 THANKSGIVING BREAK
+Blueprint Changes:
+	Worked to beautify the stamina bar. Also added placeholder health and magazine bars to the same wiget.
+	Created a new user interface material to beautify the progress bars. Adapted from lazer material
+	so it has a fade from top to bottom, but can still specify color of differing progress bars.
