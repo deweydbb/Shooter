@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
+class UInputComponent;
+
 UCLASS(config=Game)
 class AShooterCharacter : public ACharacter
 {
@@ -21,6 +23,10 @@ class AShooterCharacter : public ACharacter
 public:
 	AShooterCharacter();
 
+	/** Location on gun mesh where projectiles should spawn. */
+	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+		class USceneComponent* FP_MuzzleLocation;
+
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -34,16 +40,20 @@ public:
 	UFUNCTION()
 	void spawnChar();
 
-	UFUNCTION()
-	void Fire();
-
+	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category = Projectile)
-	TSubclassOf<class ASniperProjectile> ProjectileClass;
+		TSubclassOf<class ASniperProjectile> ProjectileClass;
+
+	//ASniperProjectile* const Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
 
 	FVector gunOffset;
 	FVector firePoint;
 
 protected:
+
+	//UFUNCTION()
+	void Fire();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();

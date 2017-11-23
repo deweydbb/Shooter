@@ -20,6 +20,8 @@ class ASniperProjectile : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ASniperProjectile();
+
+	void Fire();
 	
 	/**called when projectile collides*/
 	UFUNCTION()
