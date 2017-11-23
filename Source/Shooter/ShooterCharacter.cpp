@@ -1,6 +1,7 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
 #include "ShooterCharacter.h"
+#include "MagazineLoad.h"
 #include "SniperProjectile.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -15,6 +16,11 @@
 
 AShooterCharacter::AShooterCharacter()
 {
+
+	mag.BulletsLeft = mag.TotalSize;
+	CurrBullets = mag.BulletsLeft;
+	MaxBullets = mag.TotalSize;
+
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
@@ -68,6 +74,7 @@ void AShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AShooterCharacter::Reload);
 
 	//fire action
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
@@ -154,24 +161,37 @@ void AShooterCharacter::spawnChar() {
 
 void AShooterCharacter::Fire()
 {
+	if (mag.CanFire()) {
 
-	if (ProjectileClass != NULL)
-	{
-
-		UWorld* const World = GetWorld();
-		if (World != NULL)
+		if (ProjectileClass != NULL)
 		{
-			const FRotator SpawnRotation = GetControlRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
-			const FVector SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(gunOffset);
+			mag.FireBullet();
+			if (CurrBullets > 0) {
+				CurrBullets -= 1;
+			}
 
-			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
-			// spawn the projectile at the muzzle
-			ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			UWorld* const World = GetWorld();
+			if (World != NULL)
+			{
+				const FRotator SpawnRotation = GetControlRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
+				const FVector SpawnLocation = GetActorLocation() + SpawnRotation.RotateVector(gunOffset);
+
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				// spawn the projectile at the muzzle
+				ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			}
 		}
 	}
+}
+
+void AShooterCharacter::Reload()
+{
+	mag.ReloadMagazine();
+	CurrBullets = mag.TotalSize;
 }

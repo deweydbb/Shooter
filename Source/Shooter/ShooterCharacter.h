@@ -2,7 +2,9 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
+#include "MagazineLoad.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
@@ -22,6 +24,16 @@ class AShooterCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 public:
 	AShooterCharacter();
+
+	MagazineLoad mag;
+
+	//variables used to display wigets
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
+		float MaxBullets;
+
+	//variables used to display wigets
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
+		float CurrBullets;
 
 	/** Location on gun mesh where projectiles should spawn. */
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
@@ -81,6 +93,8 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	void Reload();
 
 protected:
 	// APawn interface
