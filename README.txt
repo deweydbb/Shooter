@@ -174,3 +174,13 @@ Blueprint Changes:
 	Worked to beautify the stamina bar. Also added placeholder health and magazine bars to the same wiget.
 	Created a new user interface material to beautify the progress bars. Adapted from lazer material
 	so it has a fade from top to bottom, but can still specify color of differing progress bars.
+
+11/22/17 THANKSGIVING BREAK
+Blueprint Changes:
+	Got projectile basics working. Shoots out of body, not from muzzle. Could not get location of socket at the muzzle of the gun.
+	Can still shoot while sprinting, crouching, etc
+
+11/23/17 THANKSGIVING BREAK
+Blueprint Changes:
+	Worked more on projectiles, made a magazine class and mapped it to the widget progress bar
+	so the player can see the number of bullets left
