@@ -189,3 +189,6 @@ Blueprint Changes:
 Blueprint/C++ Changes:
 	Added bool to control what state the player can fire in. The bool is set in the character blueprint.
 	The player cannot shoot while: sprinting, jumping, climbing a ladder, or while in a menu.
+Animation Changes:
+	Made it so that the player aims up and down all the time except when sprinting, jumping, climbing, menuing, or crouching
+	instead of just when aiming.
