@@ -17,7 +17,10 @@
 AShooterCharacter::AShooterCharacter()
 {
 
+
 	mag.BulletsLeft = mag.TotalSize;
+
+	//used for wiget display
 	CurrBullets = mag.BulletsLeft;
 	MaxBullets = mag.TotalSize;
 
@@ -161,7 +164,8 @@ void AShooterCharacter::spawnChar() {
 
 void AShooterCharacter::Fire()
 {
-	if (mag.CanFire()) {
+
+	if (mag.CanFire() && ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{

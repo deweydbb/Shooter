@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "SniperProjectile.h"
 #include "Shooter.h"
+#include "MagazineLoad.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
@@ -12,7 +13,7 @@ ASniperProjectile::ASniperProjectile()
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
-	//CollisionComp->OnComponentHit.AddDynamic(this, &ALasersProjectile::OnHit);		// set up a notification for when this component hits something blocking
+	CollisionComp->OnComponentHit.AddDynamic(this, &ASniperProjectile::OnHit);		// set up a notification for when this component hits something blocking
 
 																					// Players can't walk on it
 	CollisionComp->SetWalkableSlopeOverride(FWalkableSlopeOverride(WalkableSlope_Unwalkable, 0.f));

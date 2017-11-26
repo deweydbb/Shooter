@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include "CoreMinimal.h"
 #include "MagazineLoad.h"
 #include "GameFramework/Character.h"
@@ -26,6 +25,9 @@ public:
 	AShooterCharacter();
 
 	MagazineLoad mag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
+		bool ableToFire;
 
 	//variables used to display wigets
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)

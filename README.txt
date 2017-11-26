@@ -176,7 +176,7 @@ Blueprint Changes:
 	so it has a fade from top to bottom, but can still specify color of differing progress bars.
 
 11/22/17 THANKSGIVING BREAK
-Blueprint Changes:
+C++ Changes:
 	Got projectile basics working. Shoots out of body, not from muzzle. Could not get location of socket at the muzzle of the gun.
 	Can still shoot while sprinting, crouching, etc
 
@@ -184,3 +184,8 @@ Blueprint Changes:
 Blueprint Changes:
 	Worked more on projectiles, made a magazine class and mapped it to the widget progress bar
 	so the player can see the number of bullets left
+
+11/26/17 THANKSGIVING BREAK
+Blueprint/C++ Changes:
+	Added bool to control what state the player can fire in. The bool is set in the character blueprint.
+	The player cannot shoot while: sprinting, jumping, climbing a ladder, or while in a menu.
