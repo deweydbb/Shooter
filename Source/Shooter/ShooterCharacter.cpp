@@ -19,7 +19,8 @@ AShooterCharacter::AShooterCharacter()
 
 
 	mag.BulletsLeft = mag.TotalSize;
-
+	maxHealth = 100;
+	health = maxHealth;
 	//used for wiget display
 	CurrBullets = mag.BulletsLeft;
 	MaxBullets = mag.TotalSize;
@@ -66,6 +67,21 @@ AShooterCharacter::AShooterCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	team = true;
+}
+
+void AShooterCharacter::removeHealth()
+{
+	health -= 33;
+}
+
+void AShooterCharacter::addHealth()
+{
+	health += 33;
+}
+
+int AShooterCharacter::getHealth()
+{
+	return health;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -191,6 +207,10 @@ void AShooterCharacter::Fire()
 				ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 			}
 		}
+	}
+
+	if (Role < ROLE_Authority) {
+		
 	}
 }
 

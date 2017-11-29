@@ -9,7 +9,6 @@ UCLASS(config=Game)
 class ASniperProjectile : public AActor
 {
 	GENERATED_BODY()
-
 	/**Sphere collsion component */
 	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
 	class USphereComponent* CollisionComp;

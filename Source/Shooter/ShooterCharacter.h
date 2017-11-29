@@ -26,6 +26,21 @@ public:
 
 	MagazineLoad mag;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float maxHealth;
+
+	UFUNCTION()
+		void removeHealth();
+
+	UFUNCTION()
+		void addHealth();
+
+	UFUNCTION()
+		int getHealth();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		bool ableToFire;
 
@@ -66,8 +81,8 @@ public:
 
 protected:
 
-	//UFUNCTION()
-	void Fire();
+	UFUNCTION()
+		void Fire();
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();

@@ -192,3 +192,12 @@ Blueprint/C++ Changes:
 Animation Changes:
 	Made it so that the player aims up and down all the time except when sprinting, jumping, climbing, menuing, or crouching
 	instead of just when aiming.
+
+11/28/17
+BluePrint Changes:
+	Mapped the get health to the widget so it accurately displays the players health bar
+C++ Changes:
+	Added health property to players
+	added remove health, get health, and add health functions
+	Added projectile collision with characters
+	Started working on projectile replication but it needs work

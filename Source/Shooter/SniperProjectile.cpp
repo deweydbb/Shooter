@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "SniperProjectile.h"
 #include "Shooter.h"
+#include "ShooterCharacter.h"
 #include "MagazineLoad.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -9,7 +10,9 @@
 // Sets default values
 ASniperProjectile::ASniperProjectile()
 {
+
 	// Use a sphere as a simple collision representation
+	bReplicates = true;
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
@@ -25,8 +28,8 @@ ASniperProjectile::ASniperProjectile()
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 9000.f;
-	ProjectileMovement->MaxSpeed = 10000.f;
+	ProjectileMovement->InitialSpeed = 500.f;
+	ProjectileMovement->MaxSpeed = 500.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 
@@ -37,7 +40,22 @@ ASniperProjectile::ASniperProjectile()
 
 void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
 {
+	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
+	{
+		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 
+		Destroy();
+	}
+
+	if (OtherActor->IsA<AShooterCharacter>()) {
+		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
+
+		HitMan->removeHealth();
+
+		if (HitMan->getHealth() < 0) {
+			//HitMan->Destroy();
+		}
+	}
 }
 
 
