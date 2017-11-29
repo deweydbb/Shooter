@@ -196,6 +196,7 @@ Animation Changes:
 11/28/17
 BluePrint Changes:
 	Mapped the get health to the widget so it accurately displays the players health bar
+	Changed gun model to free pencil model, might change it later, will have to wait for chanow's opinion
 C++ Changes:
 	Added health property to players
 	added remove health, get health, and add health functions
