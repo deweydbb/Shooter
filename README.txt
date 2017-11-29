@@ -208,3 +208,4 @@ C++ Changes:
 C++ Changes:
 	Set gunOffSet to the scoket location of muzzle so it alwasy shoots out of the 
 	end of the pencil
+	Made projectile pencils instead of lazers, extremely easy to switch between them using sniper projectile blueprint
