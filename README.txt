@@ -203,3 +203,8 @@ C++ Changes:
 	added remove health, get health, and add health functions
 	Added projectile collision with characters
 	Started working on projectile replication but it needs work
+
+11/29/17
+C++ Changes:
+	Set gunOffSet to the scoket location of muzzle so it alwasy shoots out of the 
+	end of the pencil

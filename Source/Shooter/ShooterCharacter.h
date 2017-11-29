@@ -26,6 +26,8 @@ public:
 
 	MagazineLoad mag;
 
+	class USkeletalMeshComponent* PlayerMesh;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float health;
 
