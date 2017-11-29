@@ -71,12 +71,16 @@ AShooterCharacter::AShooterCharacter()
 
 void AShooterCharacter::removeHealth()
 {
-	health -= 33;
+	if (health > 0) {
+		health -= 33;
+	}
 }
 
 void AShooterCharacter::addHealth()
 {
-	health += 33;
+	if (health < maxHealth) {
+		health += 33;
+	}
 }
 
 int AShooterCharacter::getHealth()
@@ -180,7 +184,6 @@ void AShooterCharacter::spawnChar() {
 
 void AShooterCharacter::Fire()
 {
-
 	if (mag.CanFire() && ableToFire) {
 
 		if (ProjectileClass != NULL)
