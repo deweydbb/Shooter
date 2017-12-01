@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MagazineLoad.h"
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/Character.h"
 #include "ShooterCharacter.generated.h"
 
@@ -46,6 +47,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		bool ableToFire;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool isDead;
+
 	//variables used to display wigets
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		float MaxBullets;
@@ -81,10 +85,15 @@ public:
 	FVector gunOffset;
 	FVector firePoint;
 
-protected:
-
 	UFUNCTION()
 		void Fire();
+
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServerFire();
+	UFUNCTION(NetMultiCast, Reliable)
+		void OutwardFire();
+
+protected:
 
 	/** Resets HMD orientation in VR. */
 	void OnResetVR();

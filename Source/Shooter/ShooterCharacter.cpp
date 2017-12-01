@@ -20,6 +20,7 @@ AShooterCharacter::AShooterCharacter()
 	PlayerMesh = GetMesh();
 
 	mag.BulletsLeft = mag.TotalSize;
+	isDead = false;
 	maxHealth = 100;
 	health = maxHealth;
 	//used for wiget display
@@ -74,6 +75,9 @@ void AShooterCharacter::removeHealth()
 {
 	if (health > 0) {
 		health -= 33;
+		if (health < 0) {
+			isDead = true;
+		}
 	}
 }
 
@@ -101,7 +105,7 @@ void AShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &AShooterCharacter::Reload);
 
 	//fire action
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
+		PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
@@ -185,6 +189,16 @@ void AShooterCharacter::spawnChar() {
 
 void AShooterCharacter::Fire()
 {
+	if (Role < ROLE_Authority) {
+		ServerFire();
+	}
+	else {
+		OutwardFire();
+	}
+}
+
+void AShooterCharacter::ServerFire_Implementation()
+{
 	if (mag.CanFire() && ableToFire) {
 
 		if (ProjectileClass != NULL)
@@ -209,13 +223,49 @@ void AShooterCharacter::Fire()
 				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 				// spawn the projectile at the muzzle
-				ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
+				UPROPERTY(replicated)
+					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
 			}
 		}
 	}
 
-	if (Role < ROLE_Authority) {
-		
+	OutwardFire();
+}
+
+bool AShooterCharacter::ServerFire_Validate() {
+	return true;
+}
+
+void AShooterCharacter::OutwardFire_Implementation()
+{
+	if (mag.CanFire() && ableToFire) {
+
+		if (ProjectileClass != NULL)
+		{
+			mag.FireBullet();
+			if (CurrBullets > 0) {
+				CurrBullets -= 1;
+			}
+
+
+			UWorld* const World = GetWorld();
+			if (World != NULL)
+			{
+				const FRotator SpawnRotation = GetControlRotation();
+				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
+				PlayerMesh->GetSocketLocation("Muzzle");
+				gunOffset = PlayerMesh->GetSocketLocation("Muzzle");
+
+				//Set Spawn Collision Handling Override
+				FActorSpawnParameters ActorSpawnParams;
+				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+				// spawn the projectile at the muzzle
+				UPROPERTY(replicated)
+					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
+			}
+		}
 	}
 }
 

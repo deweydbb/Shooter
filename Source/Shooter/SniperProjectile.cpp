@@ -3,6 +3,7 @@
 #include "Shooter.h"
 #include "ShooterCharacter.h"
 #include "MagazineLoad.h"
+#include "Net/UnrealNetwork.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
@@ -28,8 +29,8 @@ ASniperProjectile::ASniperProjectile()
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 500.f;
-	ProjectileMovement->MaxSpeed = 500.f;
+	ProjectileMovement->InitialSpeed = 3000.f;
+	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 
@@ -56,6 +57,15 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 			//HitMan->Destroy();
 		}
 	}
+}
+
+void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ASniperProjectile, CollisionComp);
+	DOREPLIFETIME(ASniperProjectile, ProjectileMovement);
+
 }
 
 

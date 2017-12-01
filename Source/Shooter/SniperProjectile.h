@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "CoreMinimal.h"
+#include "Core.h"
 #include "GameFramework/Actor.h"
 #include "SniperProjectile.generated.h"
 
@@ -9,12 +9,16 @@ UCLASS(config=Game)
 class ASniperProjectile : public AActor
 {
 	GENERATED_BODY()
+
+
 	/**Sphere collsion component */
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+
+public:
+	UPROPERTY(VisibleDefaultsOnly, Replicated, Category = Projectile)
 	class USphereComponent* CollisionComp;
 
 	/**Projectile movement component*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, Replicated, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	class UProjectileMovementComponent* ProjectileMovement;
 public:	
 	// Sets default values for this actor's properties
