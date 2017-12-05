@@ -3,6 +3,7 @@
 #include "ShooterCharacter.h"
 #include "MagazineLoad.h"
 #include "SniperProjectile.h"
+#include "Net/UnrealNetwork.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -10,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Controller.h"
+#include "GameFramework/Actor.h"
 #include "GameFramework/SpringArmComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -18,7 +20,7 @@
 AShooterCharacter::AShooterCharacter()
 {
 	PlayerMesh = GetMesh();
-
+	bReplicates = true;
 	mag.BulletsLeft = mag.TotalSize;
 	isDead = false;
 	maxHealth = 100;
@@ -69,23 +71,6 @@ AShooterCharacter::AShooterCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	team = true;
-}
-
-void AShooterCharacter::removeHealth()
-{
-	if (health > 0) {
-		health -= 33;
-		if (health < 0) {
-			isDead = true;
-		}
-	}
-}
-
-void AShooterCharacter::addHealth()
-{
-	if (health < maxHealth) {
-		health += 33;
-	}
 }
 
 int AShooterCharacter::getHealth()
@@ -269,8 +254,43 @@ void AShooterCharacter::OutwardFire_Implementation()
 	}
 }
 
+void AShooterCharacter::removeHealth() {
+
+}
+
+void AShooterCharacter::addHealth() {
+
+}
+
+
+bool AShooterCharacter::ServerremoveHealth_Validate() {
+	return true;
+}
+
+void AShooterCharacter::ServerremoveHealth_Implementation() {
+
+}
+
+bool AShooterCharacter::ServeraddHealth_Validate() {
+	return true;
+}
+
+void AShooterCharacter::ServeraddHealth_Implementation() {
+
+}
+
+
 void AShooterCharacter::Reload()
 {
 	mag.ReloadMagazine();
 	CurrBullets = mag.TotalSize;
 }
+
+//void AShooterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+//{
+	//Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	//DOREPLIFETIME(AShooterCharacter, health);
+	//DOREPLIFETIME(AShooterCharacter, isDead);
+
+//}

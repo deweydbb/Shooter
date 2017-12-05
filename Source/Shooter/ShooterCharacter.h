@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "Core.h"
 #include "MagazineLoad.h"
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/Character.h"
@@ -29,7 +29,7 @@ public:
 
 	class USkeletalMeshComponent* PlayerMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, Replicates, BlueprintReadWrite)
 		float health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -37,9 +37,20 @@ public:
 
 	UFUNCTION()
 		void removeHealth();
-
 	UFUNCTION()
 		void addHealth();
+
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServerremoveHealth();
+
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServeraddHealth();
+
+	UFUNCTION(NetMultiCast, Reliable)
+		void ClientAddHealth();
+
+	UFUNCTION(NetMultiCast, Reliable)
+		void ClientRemoveHealth();
 
 	UFUNCTION()
 		int getHealth();
@@ -47,7 +58,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		bool ableToFire;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, Replicates, BlueprintReadWrite)
 		bool isDead;
 
 	//variables used to display wigets
