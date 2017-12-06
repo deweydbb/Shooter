@@ -19,8 +19,9 @@
 
 AShooterCharacter::AShooterCharacter()
 {
-	PlayerMesh = GetMesh();
 	bReplicates = true;
+
+	PlayerMesh = GetMesh();
 	mag.BulletsLeft = mag.TotalSize;
 	isDead = false;
 	maxHealth = 100;
@@ -92,8 +93,8 @@ void AShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 	//fire action
 		PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
 
-	PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
-	PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
+	//PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
+	//PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
 
 	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
 	// "turn" handles devices that provide an absolute delta, such as a mouse.
@@ -139,7 +140,7 @@ void AShooterCharacter::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AShooterCharacter::MoveForward(float Value)
+/*void AShooterCharacter::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
 	{
@@ -166,7 +167,7 @@ void AShooterCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
-}
+} */
 
 void AShooterCharacter::spawnChar() {
 
@@ -201,7 +202,7 @@ void AShooterCharacter::ServerFire_Implementation()
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
 				PlayerMesh->GetSocketLocation("Muzzle");
-				gunOffset = PlayerMesh->GetSocketLocation("Muzzle");
+				gunOffset = PlayerMesh->GetSocketLocation("Muzzle") + FVector(100.f, 0.f, 0.f);
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
@@ -209,7 +210,7 @@ void AShooterCharacter::ServerFire_Implementation()
 
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
-					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
+					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
 			}
 		}
 	}
@@ -254,29 +255,48 @@ void AShooterCharacter::OutwardFire_Implementation()
 	}
 }
 
-void AShooterCharacter::removeHealth() {
-
+void AShooterCharacter::removeHealth(AShooterCharacter* CharactHit) {
+	if (Role < ROLE_Authority) {
+		ServerRemoveHealth(CharactHit);
+	}
+	else {
+		ClientRemoveHealth(CharactHit);
+	}
 }
 
-void AShooterCharacter::addHealth() {
-
+void AShooterCharacter::addHealth(AShooterCharacter* CharactHit) {
+	if (Role < ROLE_Authority) {
+		ServeraddHealth(CharactHit);
+	}
+	else {
+		ClientAddHealth(CharactHit);
+	}
 }
 
+void AShooterCharacter::ServerRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
+	CharactHit->health -= 33;
+	ClientRemoveHealth(CharactHit);
+}
 
-bool AShooterCharacter::ServerremoveHealth_Validate() {
+bool AShooterCharacter::ServerRemoveHealth_Validate(AShooterCharacter* CharactHit) {
 	return true;
 }
 
-void AShooterCharacter::ServerremoveHealth_Implementation() {
-
+void AShooterCharacter::ServeraddHealth_Implementation(AShooterCharacter* CharactHit) {
+	CharactHit->health += 33;
+	ClientAddHealth(CharactHit);
 }
 
-bool AShooterCharacter::ServeraddHealth_Validate() {
+bool AShooterCharacter::ServeraddHealth_Validate(AShooterCharacter* CharactHit) {
 	return true;
 }
 
-void AShooterCharacter::ServeraddHealth_Implementation() {
+void AShooterCharacter::ClientAddHealth_Implementation(AShooterCharacter* CharactHit) {
+	CharactHit->health += 33;
+}
 
+void AShooterCharacter::ClientRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
+	CharactHit->health -= 33;
 }
 
 
@@ -286,11 +306,10 @@ void AShooterCharacter::Reload()
 	CurrBullets = mag.TotalSize;
 }
 
-//void AShooterCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
-//{
-	//Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > & OutLifetimeProps) const 
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	//DOREPLIFETIME(AShooterCharacter, health);
-	//DOREPLIFETIME(AShooterCharacter, isDead);
-
-//}
+	DOREPLIFETIME(AShooterCharacter, health);
+	DOREPLIFETIME(AShooterCharacter, isDead);
+}

@@ -51,12 +51,14 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 	if (OtherActor->IsA<AShooterCharacter>()) {
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
 
-		HitMan->removeHealth();
+		HitMan->removeHealth(HitMan);
 
 		if (HitMan->getHealth() < 0) {
 			//HitMan->Destroy();
 		}
+
 	}
+	Destroy();
 }
 
 void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const

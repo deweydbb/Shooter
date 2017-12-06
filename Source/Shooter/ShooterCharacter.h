@@ -29,28 +29,16 @@ public:
 
 	class USkeletalMeshComponent* PlayerMesh;
 
-	UPROPERTY(EditAnywhere, Replicates, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		float health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float maxHealth;
 
 	UFUNCTION()
-		void removeHealth();
+		void removeHealth(AShooterCharacter* CharactHit);
 	UFUNCTION()
-		void addHealth();
-
-	UFUNCTION(Server, WithValidation, Reliable)
-		void ServerremoveHealth();
-
-	UFUNCTION(Server, WithValidation, Reliable)
-		void ServeraddHealth();
-
-	UFUNCTION(NetMultiCast, Reliable)
-		void ClientAddHealth();
-
-	UFUNCTION(NetMultiCast, Reliable)
-		void ClientRemoveHealth();
+		void addHealth(AShooterCharacter* CharactHit);
 
 	UFUNCTION()
 		int getHealth();
@@ -58,7 +46,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		bool ableToFire;
 
-	UPROPERTY(EditAnywhere, Replicates, BlueprintReadWrite)
+
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		bool isDead;
 
 	//variables used to display wigets
@@ -99,11 +88,23 @@ public:
 	UFUNCTION()
 		void Fire();
 
+
 	UFUNCTION(Server, WithValidation, Reliable)
 		void ServerFire();
 	UFUNCTION(NetMultiCast, Reliable)
 		void OutwardFire();
 
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServerRemoveHealth(AShooterCharacter* CharactHit);
+
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServeraddHealth(AShooterCharacter* CharactHit);
+
+	UFUNCTION(NetMultiCast, Reliable)
+		void ClientAddHealth(AShooterCharacter* CharactHit);
+
+	UFUNCTION(NetMultiCast, Reliable)
+		void ClientRemoveHealth(AShooterCharacter* CharactHit);
 protected:
 
 	/** Resets HMD orientation in VR. */
