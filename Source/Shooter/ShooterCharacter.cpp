@@ -256,21 +256,23 @@ void AShooterCharacter::OutwardFire_Implementation()
 }
 
 void AShooterCharacter::removeHealth(AShooterCharacter* CharactHit) {
-	//if (Role < ROLE_Authority) {
+	if (Role == ROLE_AutonomousProxy) {
 		ServerRemoveHealth(CharactHit);
-	//}
-	//else {
-	//	ClientRemoveHealth(CharactHit);
-	//}
+		
+	}
+	else {
+		ClientRemoveHealth(CharactHit);
+	}
 }
 
 void AShooterCharacter::addHealth(AShooterCharacter* CharactHit) {
-	//if (Role < ROLE_Authority) {
-	//	ServeraddHealth(CharactHit);
-	//}
-	//else {
+	if (Role == ROLE_AutonomousProxy) {
+		ServeraddHealth(CharactHit);
+		
+	}
+	else {
 		ClientAddHealth(CharactHit);
-	//}
+	}
 }
 
 void AShooterCharacter::ServerRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
