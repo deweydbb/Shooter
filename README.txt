@@ -214,3 +214,8 @@ C++ Changes:
 
 NOTE: DEDIICATED SERVER ERROR, THIS IS ONYL THREAD WITH AWNSERS
 https://forums.unrealengine.com/development-discussion/c-gameplay-programming/109996-4-15-dedicated-server-not-running
+
+12/6/17
+C++ Changes: 
+	Since the 29th we replicated health and sprinting. We have been trying to get it to run on the dedicated server, but we are running
+	into issues. The server won't stay open and shuts down automatically

@@ -59,7 +59,7 @@ public:
 		float CurrBullets;
 
 	/** Location on gun mesh where projectiles should spawn. */
-	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
+	UPROPERTY(VisibleDefaultsOnly, Replicated, Category = Mesh)
 		class USceneComponent* FP_MuzzleLocation;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -76,7 +76,7 @@ public:
 	void spawnChar();
 
 	/** Projectile class to spawn */
-	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	UPROPERTY(EditDefaultsOnly, Replicated, Category = Projectile)
 		TSubclassOf<class ASniperProjectile> ProjectileClass;
 
 	//ASniperProjectile* const Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);

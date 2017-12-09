@@ -256,25 +256,25 @@ void AShooterCharacter::OutwardFire_Implementation()
 }
 
 void AShooterCharacter::removeHealth(AShooterCharacter* CharactHit) {
-	if (Role < ROLE_Authority) {
+	//if (Role < ROLE_Authority) {
 		ServerRemoveHealth(CharactHit);
-	}
-	else {
-		ClientRemoveHealth(CharactHit);
-	}
+	//}
+	//else {
+	//	ClientRemoveHealth(CharactHit);
+	//}
 }
 
 void AShooterCharacter::addHealth(AShooterCharacter* CharactHit) {
-	if (Role < ROLE_Authority) {
-		ServeraddHealth(CharactHit);
-	}
-	else {
+	//if (Role < ROLE_Authority) {
+	//	ServeraddHealth(CharactHit);
+	//}
+	//else {
 		ClientAddHealth(CharactHit);
-	}
+	//}
 }
 
 void AShooterCharacter::ServerRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	CharactHit->health -= 33;
+	health -= 33;
 	ClientRemoveHealth(CharactHit);
 }
 
@@ -283,7 +283,7 @@ bool AShooterCharacter::ServerRemoveHealth_Validate(AShooterCharacter* CharactHi
 }
 
 void AShooterCharacter::ServeraddHealth_Implementation(AShooterCharacter* CharactHit) {
-	CharactHit->health += 33;
+	health += 33;
 	ClientAddHealth(CharactHit);
 }
 
@@ -292,11 +292,11 @@ bool AShooterCharacter::ServeraddHealth_Validate(AShooterCharacter* CharactHit) 
 }
 
 void AShooterCharacter::ClientAddHealth_Implementation(AShooterCharacter* CharactHit) {
-	CharactHit->health += 33;
+	health += 33;
 }
 
 void AShooterCharacter::ClientRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	CharactHit->health -= 33;
+	health -= 33;
 }
 
 
@@ -312,4 +312,6 @@ void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > 
 
 	DOREPLIFETIME(AShooterCharacter, health);
 	DOREPLIFETIME(AShooterCharacter, isDead);
+	DOREPLIFETIME(AShooterCharacter, FP_MuzzleLocation);
+	DOREPLIFETIME(AShooterCharacter, ProjectileClass);
 }
