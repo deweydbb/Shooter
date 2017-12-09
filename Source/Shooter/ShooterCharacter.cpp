@@ -274,7 +274,7 @@ void AShooterCharacter::addHealth(AShooterCharacter* CharactHit) {
 }
 
 void AShooterCharacter::ServerRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	health -= 33;
+	health -= 33/2;
 	ClientRemoveHealth(CharactHit);
 }
 
@@ -283,7 +283,7 @@ bool AShooterCharacter::ServerRemoveHealth_Validate(AShooterCharacter* CharactHi
 }
 
 void AShooterCharacter::ServeraddHealth_Implementation(AShooterCharacter* CharactHit) {
-	health += 33;
+	health += 33/2;
 	ClientAddHealth(CharactHit);
 }
 
@@ -292,11 +292,11 @@ bool AShooterCharacter::ServeraddHealth_Validate(AShooterCharacter* CharactHit) 
 }
 
 void AShooterCharacter::ClientAddHealth_Implementation(AShooterCharacter* CharactHit) {
-	health += 33;
+	health += 33/2;
 }
 
 void AShooterCharacter::ClientRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	health -= 33;
+	health -= 33/2;
 }
 
 
