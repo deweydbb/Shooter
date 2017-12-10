@@ -33,10 +33,6 @@ AShooterCharacter::AShooterCharacter()
 	// Set size for collision capsule
 	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 
-	// set our turn rates for input
-	BaseTurnRate = 45.f;
-	BaseLookUpRate = 45.f;
-
 
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	FP_MuzzleLocation->SetupAttachment(FollowCamera);
@@ -92,82 +88,8 @@ void AShooterCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 	//fire action
 		PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterCharacter::Fire);
-
-	//PlayerInputComponent->BindAxis("MoveForward", this, &AShooterCharacter::MoveForward);
-	//PlayerInputComponent->BindAxis("MoveRight", this, &AShooterCharacter::MoveRight);
-
-	// We have 2 versions of the rotation bindings to handle different kinds of devices differently
-	// "turn" handles devices that provide an absolute delta, such as a mouse.
-	// "turnrate" is for devices that we choose to treat as a rate of change, such as an analog joystick
-	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
-	PlayerInputComponent->BindAxis("TurnRate", this, &AShooterCharacter::TurnAtRate);
-	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
-	PlayerInputComponent->BindAxis("LookUpRate", this, &AShooterCharacter::LookUpAtRate);
-
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &AShooterCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &AShooterCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &AShooterCharacter::OnResetVR);
 }
 
-
-void AShooterCharacter::OnResetVR()
-{
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void AShooterCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		Jump();
-}
-
-void AShooterCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
-}
-
-void AShooterCharacter::TurnAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerYawInput(Rate * BaseTurnRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AShooterCharacter::LookUpAtRate(float Rate)
-{
-	// calculate delta for this frame from the rate information
-	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
-}
-
-/*void AShooterCharacter::MoveForward(float Value)
-{
-	if ((Controller != NULL) && (Value != 0.0f))
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
-	}
-}
-
-void AShooterCharacter::MoveRight(float Value)
-{
-	if ( (Controller != NULL) && (Value != 0.0f) )
-	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
-	}
-} */
 
 void AShooterCharacter::spawnChar() {
 
@@ -189,7 +111,7 @@ void AShooterCharacter::ServerFire_Implementation()
 
 		if (ProjectileClass != NULL)
 		{
-			mag.FireBullet();
+			//mag.FireBullet();
 			if (CurrBullets > 0) {
 				CurrBullets -= 1;
 			}
@@ -224,11 +146,11 @@ bool AShooterCharacter::ServerFire_Validate() {
 
 void AShooterCharacter::OutwardFire_Implementation()
 {
-	if (mag.CanFire() && ableToFire) {
+	if (/*mag.CanFire() &&*/ ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{
-			mag.FireBullet();
+			//mag.FireBullet();
 			if (CurrBullets > 0) {
 				CurrBullets -= 1;
 			}
@@ -237,7 +159,7 @@ void AShooterCharacter::OutwardFire_Implementation()
 			UWorld* const World = GetWorld();
 			if (World != NULL)
 			{
-				const FRotator SpawnRotation = GetControlRotation();
+				SpawnRotation = GetControlRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
 				PlayerMesh->GetSocketLocation("Muzzle");
@@ -255,55 +177,77 @@ void AShooterCharacter::OutwardFire_Implementation()
 	}
 }
 
-void AShooterCharacter::removeHealth(AShooterCharacter* CharactHit) {
+void AShooterCharacter::removeHealth( ) {
 	if (Role == ROLE_AutonomousProxy) {
-		ServerRemoveHealth(CharactHit);
+		ServerRemoveHealth();
 		
 	}
 	else {
-		ClientRemoveHealth(CharactHit);
+		ClientRemoveHealth();
 	}
 }
 
-void AShooterCharacter::addHealth(AShooterCharacter* CharactHit) {
+void AShooterCharacter::addHealth() {
 	if (Role == ROLE_AutonomousProxy) {
-		ServeraddHealth(CharactHit);
+		ServeraddHealth();
 		
 	}
 	else {
-		ClientAddHealth(CharactHit);
+		ClientAddHealth();
 	}
 }
 
-void AShooterCharacter::ServerRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	health -= 33/2;
-	ClientRemoveHealth(CharactHit);
+void AShooterCharacter::ServerRemoveHealth_Implementation() {
+	health -= 33;
+	ClientRemoveHealth();
 }
 
-bool AShooterCharacter::ServerRemoveHealth_Validate(AShooterCharacter* CharactHit) {
+bool AShooterCharacter::ServerRemoveHealth_Validate() {
 	return true;
 }
 
-void AShooterCharacter::ServeraddHealth_Implementation(AShooterCharacter* CharactHit) {
-	health += 33/2;
-	ClientAddHealth(CharactHit);
+void AShooterCharacter::ServeraddHealth_Implementation() {
+	health += 33;
+	ClientAddHealth();
 }
 
-bool AShooterCharacter::ServeraddHealth_Validate(AShooterCharacter* CharactHit) {
+bool AShooterCharacter::ServeraddHealth_Validate() {
 	return true;
 }
 
-void AShooterCharacter::ClientAddHealth_Implementation(AShooterCharacter* CharactHit) {
-	health += 33/2;
+void AShooterCharacter::ClientAddHealth_Implementation() {
+	health += 33;
 }
 
-void AShooterCharacter::ClientRemoveHealth_Implementation(AShooterCharacter* CharactHit) {
-	health -= 33/2;
+void AShooterCharacter::ClientRemoveHealth_Implementation() {
+	health -= 33;
 }
 
 
 void AShooterCharacter::Reload()
 {
+	/*if (Role < ROLE_Authority) {
+		ServerReload();
+
+	}
+	else {
+		ClientReload();
+	}*/
+
+	mag.ReloadMagazine();
+	CurrBullets = mag.TotalSize;
+}
+
+void AShooterCharacter::ServerReload_Implementation() {
+	mag.ReloadMagazine();
+	CurrBullets = mag.TotalSize;
+}
+
+bool AShooterCharacter::ServerReload_Validate() {
+	return true;
+}
+
+void AShooterCharacter::ClientReload_Implementation() {
 	mag.ReloadMagazine();
 	CurrBullets = mag.TotalSize;
 }

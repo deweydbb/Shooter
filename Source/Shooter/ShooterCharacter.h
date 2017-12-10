@@ -36,9 +36,9 @@ public:
 		float maxHealth;
 
 	UFUNCTION()
-		void removeHealth(AShooterCharacter* CharactHit);
+		void removeHealth();
 	UFUNCTION()
-		void addHealth(AShooterCharacter* CharactHit);
+		void addHealth();
 
 	UFUNCTION()
 		int getHealth();
@@ -62,13 +62,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, Replicated, Category = Mesh)
 		class USceneComponent* FP_MuzzleLocation;
 
-	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseTurnRate;
-
-	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
-	float BaseLookUpRate;
 
 	bool team;
 
@@ -95,44 +88,26 @@ public:
 		void OutwardFire();
 
 	UFUNCTION(Server, WithValidation, Reliable)
-		void ServerRemoveHealth(AShooterCharacter* CharactHit);
+		void ServerRemoveHealth();
 
 	UFUNCTION(Server, WithValidation, Reliable)
-		void ServeraddHealth(AShooterCharacter* CharactHit);
+		void ServeraddHealth();
 
 	UFUNCTION(NetMultiCast, Reliable)
-		void ClientAddHealth(AShooterCharacter* CharactHit);
+		void ClientAddHealth();
 
 	UFUNCTION(NetMultiCast, Reliable)
-		void ClientRemoveHealth(AShooterCharacter* CharactHit);
+		void ClientRemoveHealth();
+
+	UFUNCTION(Server, WithValidation, Reliable)
+		void ServerReload();
+
+	UFUNCTION(NetMultiCast, Reliable)
+		void ClientReload();
+
+	UPROPERTY(Replicated)
+		FRotator SpawnRotation;
 protected:
-
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
-
-	/** Called for forwards/backward input */
-	void MoveForward(float Value);
-
-	/** Called for side to side input */
-	void MoveRight(float Value);
-
-	/** 
-	 * Called via input to turn at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void TurnAtRate(float Rate);
-
-	/**
-	 * Called via input to turn look up/down at a given rate. 
-	 * @param Rate	This is a normalized rate, i.e. 1.0 means 100% of desired turn rate
-	 */
-	void LookUpAtRate(float Rate);
-
-	/** Handler for when a touch input begins. */
-	void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
-
-	/** Handler for when a touch input stops. */
-	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 	void Reload();
 
