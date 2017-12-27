@@ -107,7 +107,7 @@ void AShooterCharacter::Fire()
 
 void AShooterCharacter::ServerFire_Implementation()
 {
-	if (mag.CanFire() && ableToFire) {
+	if (/*mag.CanFire()*/ ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{
@@ -146,11 +146,11 @@ bool AShooterCharacter::ServerFire_Validate() {
 
 void AShooterCharacter::OutwardFire_Implementation()
 {
-	if (/*mag.CanFire() &&*/ ableToFire) {
+	if (mag.CanFire() && ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{
-			//mag.FireBullet();
+			mag.FireBullet();
 			if (CurrBullets > 0) {
 				CurrBullets -= 1;
 			}
