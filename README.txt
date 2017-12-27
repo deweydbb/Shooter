@@ -210,8 +210,6 @@ C++ Changes:
 	end of the pencil
 	Made projectile pencils instead of lazers, extremely easy to switch between them using sniper projectile blueprint
 
-
-
 NOTE: DEDIICATED SERVER ERROR, THIS IS ONYL THREAD WITH AWNSERS
 https://forums.unrealengine.com/development-discussion/c-gameplay-programming/109996-4-15-dedicated-server-not-running
 
@@ -219,3 +217,18 @@ https://forums.unrealengine.com/development-discussion/c-gameplay-programming/10
 C++ Changes: 
 	Since the 29th we replicated health and sprinting. We have been trying to get it to run on the dedicated server, but we are running
 	into issues. The server won't stay open and shuts down automatically
+
+12/27/17
+C++ Changes:
+	Stopped using magazine class and recreated it inside the shooter character so we can replicate the number of bullets the player has
+	moved reload to blueprints
+Blueprint Changes:
+	server checks for death and if the player is dead it disables input, plays the death animation, and waits three seconds before
+	respawning the player and re-adding their health. 
+Other:
+	Added a death animation for charles. plays when player is dead.
+	IMPORTANT:
+		I had some problems with health and projectile replication today.
+		Health seems to be working, but the projectiles from other players do not look like they are firing in the correct 
+		direction. Also it is more often then not taking more than 33 health. 
+		

@@ -107,14 +107,11 @@ void AShooterCharacter::Fire()
 
 void AShooterCharacter::ServerFire_Implementation()
 {
-	if (/*mag.CanFire()*/ ableToFire) {
+	if (CurrBullets > 0 && ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{
-			//mag.FireBullet();
-			//if (CurrBullets > 0) {
-				//CurrBullets -= 1;
-			//}
+			CurrBullets -= 1;
 
 			UWorld* const World = GetWorld();
 			if (World != NULL)
@@ -132,7 +129,6 @@ void AShooterCharacter::ServerFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
-				UE_LOG(LogTemp, Warning, TEXT("serverFire"));
 			}
 		}
 	}
@@ -146,16 +142,12 @@ bool AShooterCharacter::ServerFire_Validate() {
 
 void AShooterCharacter::OutwardFire_Implementation()
 {
-	if (mag.CanFire() && ableToFire) {
+	if (CurrBullets > 0 && ableToFire) {
 
 		if (ProjectileClass != NULL)
 		{
-			mag.FireBullet();
-			if (CurrBullets > 0) {
-				CurrBullets -= 1;
-			}
-
-
+			CurrBullets -= 1;
+			
 			UWorld* const World = GetWorld();
 			if (World != NULL)
 			{
@@ -172,7 +164,6 @@ void AShooterCharacter::OutwardFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
-				UE_LOG(LogTemp, Warning, TEXT("client fire"));
 			}
 		}
 	}
@@ -199,6 +190,9 @@ void AShooterCharacter::addHealth() {
 
 void AShooterCharacter::ServerRemoveHealth_Implementation() {
 	health -= 33;
+	if (health < 0) {
+		isDead = true;
+	}
 	ClientRemoveHealth();
 }
 
@@ -221,35 +215,12 @@ void AShooterCharacter::ClientAddHealth_Implementation() {
 
 void AShooterCharacter::ClientRemoveHealth_Implementation() {
 	health -= 33;
+	
 }
 
 
 void AShooterCharacter::Reload()
 {
-	/*if (Role < ROLE_Authority) {
-		ServerReload();
-
-	}
-	else {
-		ClientReload();
-	}*/
-
-	mag.ReloadMagazine();
-	CurrBullets = mag.TotalSize;
-}
-
-void AShooterCharacter::ServerReload_Implementation() {
-	mag.ReloadMagazine();
-	CurrBullets = mag.TotalSize;
-}
-
-bool AShooterCharacter::ServerReload_Validate() {
-	return true;
-}
-
-void AShooterCharacter::ClientReload_Implementation() {
-	mag.ReloadMagazine();
-	CurrBullets = mag.TotalSize;
 }
 
 void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > & OutLifetimeProps) const 
@@ -260,4 +231,5 @@ void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > 
 	DOREPLIFETIME(AShooterCharacter, isDead);
 	DOREPLIFETIME(AShooterCharacter, FP_MuzzleLocation);
 	DOREPLIFETIME(AShooterCharacter, ProjectileClass);
+	DOREPLIFETIME(AShooterCharacter, CurrBullets);
 }

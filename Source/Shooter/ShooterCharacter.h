@@ -51,11 +51,11 @@ public:
 		bool isDead;
 
 	//variables used to display wigets
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine, Replicated)
 		float MaxBullets;
 
 	//variables used to display wigets
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine, Replicated)
 		float CurrBullets;
 
 	/** Location on gun mesh where projectiles should spawn. */
@@ -98,12 +98,6 @@ public:
 
 	UFUNCTION(NetMultiCast, Reliable)
 		void ClientRemoveHealth();
-
-	UFUNCTION(Server, WithValidation, Reliable)
-		void ServerReload();
-
-	UFUNCTION(NetMultiCast, Reliable)
-		void ClientReload();
 
 	UPROPERTY(Replicated)
 		FRotator SpawnRotation;
