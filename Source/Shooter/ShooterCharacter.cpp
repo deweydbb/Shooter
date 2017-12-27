@@ -112,10 +112,9 @@ void AShooterCharacter::ServerFire_Implementation()
 		if (ProjectileClass != NULL)
 		{
 			//mag.FireBullet();
-			if (CurrBullets > 0) {
-				CurrBullets -= 1;
-			}
-
+			//if (CurrBullets > 0) {
+				//CurrBullets -= 1;
+			//}
 
 			UWorld* const World = GetWorld();
 			if (World != NULL)
@@ -133,6 +132,7 @@ void AShooterCharacter::ServerFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
+				UE_LOG(LogTemp, Warning, TEXT("serverFire"));
 			}
 		}
 	}
@@ -172,15 +172,15 @@ void AShooterCharacter::OutwardFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
+				UE_LOG(LogTemp, Warning, TEXT("client fire"));
 			}
 		}
 	}
 }
 
-void AShooterCharacter::removeHealth( ) {
+void AShooterCharacter::removeHealth() {
 	if (Role == ROLE_AutonomousProxy) {
 		ServerRemoveHealth();
-		
 	}
 	else {
 		ClientRemoveHealth();

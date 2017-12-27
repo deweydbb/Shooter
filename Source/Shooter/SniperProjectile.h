@@ -25,6 +25,8 @@ public:
 	ASniperProjectile();
 
 	void Fire();
+
+	bool once;
 	
 	/**called when projectile collides*/
 	UFUNCTION()

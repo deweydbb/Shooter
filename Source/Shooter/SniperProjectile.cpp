@@ -14,6 +14,7 @@ ASniperProjectile::ASniperProjectile()
 
 	// Use a sphere as a simple collision representation
 	bReplicates = true;
+	once = false;
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
 	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");
@@ -51,14 +52,13 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 	if (OtherActor->IsA<AShooterCharacter>()) {
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
 		Destroy();
-		HitMan->removeHealth();
-
-		if (HitMan->getHealth() < 0) {
-			//HitMan->Destroy();
+		if (!once) {
+			HitMan->removeHealth();
+			once = true;
 		}
 
 	}
-	//Destroy();
+	Destroy();
 }
 
 void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
