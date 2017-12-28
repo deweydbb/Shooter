@@ -120,7 +120,7 @@ void AShooterCharacter::ServerFire_Implementation()
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
 				PlayerMesh->GetSocketLocation("Muzzle");
-				gunOffset = PlayerMesh->GetSocketLocation("Muzzle") + FVector(100.f, 0.f, 0.f);
+				gunOffset = PlayerMesh->GetSocketLocation("Muzzle"); /* +FVector(100.f, 0.f, 0.f);*/
 
 				//Set Spawn Collision Handling Override
 				FActorSpawnParameters ActorSpawnParams;
@@ -129,6 +129,9 @@ void AShooterCharacter::ServerFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
+				if (Projectile) {
+					Projectile->playerOwnerID = playerID;
+				}
 			}
 		}
 	}
@@ -163,7 +166,10 @@ void AShooterCharacter::OutwardFire_Implementation()
 
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
-					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation);
+					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
+				if (Projectile) {
+					Projectile->playerOwnerID = playerID;
+				}
 			}
 		}
 	}

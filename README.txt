@@ -231,4 +231,13 @@ Other:
 		I had some problems with health and projectile replication today.
 		Health seems to be working, but the projectiles from other players do not look like they are firing in the correct 
 		direction. Also it is more often then not taking more than 33 health. 
+
+12/28/17
+C++ Changes:
+	Added a player Id that is a random integer and when a player fires a projectile their id is passed to the projectile. If the
+	projectile collides with a player it checks to see if it hit its owner before removing health. 
+Blueprint Changes:
+	Also added some more little fun animations like salute and stuff. Each number 1, 2, 3... has an animation mapped to it.
+	Also added a climbing animation for the tree house
+	
 		

@@ -27,6 +27,9 @@ public:
 	void Fire();
 
 	bool once;
+
+	UPROPERTY(Replicated)
+	int playerOwnerID;
 	
 	/**called when projectile collides*/
 	UFUNCTION()

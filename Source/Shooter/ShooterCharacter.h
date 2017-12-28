@@ -30,6 +30,10 @@ public:
 	class USkeletalMeshComponent* PlayerMesh;
 
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
+		int playerID;
+
+
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		float health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
