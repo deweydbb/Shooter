@@ -240,4 +240,9 @@ Blueprint Changes:
 	Also added some more little fun animations like salute and stuff. Each number 1, 2, 3... has an animation mapped to it.
 	Also added a climbing animation for the tree house
 	
-		
+	
+12/30/17 DAVID'S BIRTHDAY!! WOOT
+C++ Changes:
+Blueprint Changes: 
+	Got the ui to select the server ip to work. added the ui in the third person character blueprint instead of throught the level
+	bluerprint. This got rid of a majority of our errors. Also push to master under version Alpha v2.0	
