@@ -246,3 +246,27 @@ C++ Changes:
 Blueprint Changes: 
 	Got the ui to select the server ip to work. added the ui in the third person character blueprint instead of throught the level
 	bluerprint. This got rid of a majority of our errors. Also push to master under version Alpha v2.0	
+
+1/3/18
+C++ Changes:
+Blueprint Changes:
+	Added reload function. Spine and above plays reload anim while the hips and legs follow the base movement so the player can still
+	walk around while reloading but not sprint. 
+
+1/4/18
+C++ Changes:
+	Attempted to control damage based on teams but no working, having problems testing for equality with fstrings
+Blueprint Changes:
+	Made new menu that popups on begin play. There player can enter their nickname, teamname and server ip.
+
+1/7/18
+C++ Changes:
+Blueprint Changes:
+	Fixed the blurry text boxes in the login screen
+
+1/11/18
+C++ Changes:
+	added print statements to shootercharacter.cpp to figure out why teams are not working
+	turns out it only is reading the team from one .txt which is giving them the same team names hence no damage.
+	whats weird is that they can still write the the .txt. tried setting it on both server and client and in construction
+	strip with no luck

@@ -116,7 +116,7 @@ void AShooterCharacter::ServerFire_Implementation()
 			UWorld* const World = GetWorld();
 			if (World != NULL)
 			{
-				const FRotator SpawnRotation = GetControlRotation();
+				//SpawnRotation = GetControlRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
 				PlayerMesh->GetSocketLocation("Muzzle");
@@ -131,7 +131,14 @@ void AShooterCharacter::ServerFire_Implementation()
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
 				if (Projectile) {
 					Projectile->playerOwnerID = playerID;
+					Projectile->playerOwnerTeam = teamName;
 				}
+				UE_LOG(LogTemp, Warning, TEXT("PlayerID: %d"), playerID);
+				UE_LOG(LogTemp, Warning, TEXT("ProjectileOwnerID: %d"), Projectile->playerOwnerID);
+				UE_LOG(LogTemp, Warning, TEXT("PLayerTeam: %s"), *teamName);
+				UE_LOG(LogTemp, Warning, TEXT("ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
+
+				
 			}
 		}
 	}
@@ -149,12 +156,12 @@ void AShooterCharacter::OutwardFire_Implementation()
 
 		if (ProjectileClass != NULL)
 		{
-			CurrBullets -= 1;
+			//CurrBullets -= 1;
 			
 			UWorld* const World = GetWorld();
 			if (World != NULL)
 			{
-				SpawnRotation = GetControlRotation();
+				//SpawnRotation = GetControlRotation();
 				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 				//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(gunOffset);
 				PlayerMesh->GetSocketLocation("Muzzle");
@@ -167,9 +174,10 @@ void AShooterCharacter::OutwardFire_Implementation()
 				// spawn the projectile at the muzzle
 				UPROPERTY(replicated)
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
-				if (Projectile) {
 					Projectile->playerOwnerID = playerID;
-				}
+					Projectile->playerOwnerTeam = teamName;
+
+					//fProjectile->parentActor = this;
 			}
 		}
 	}
@@ -195,7 +203,7 @@ void AShooterCharacter::addHealth() {
 }
 
 void AShooterCharacter::ServerRemoveHealth_Implementation() {
-	health -= 33;
+	health -= 33/2;
 	if (health < 0) {
 		isDead = true;
 	}
@@ -207,7 +215,7 @@ bool AShooterCharacter::ServerRemoveHealth_Validate() {
 }
 
 void AShooterCharacter::ServeraddHealth_Implementation() {
-	health += 33;
+	health += 33/2;
 	ClientAddHealth();
 }
 
@@ -216,11 +224,11 @@ bool AShooterCharacter::ServeraddHealth_Validate() {
 }
 
 void AShooterCharacter::ClientAddHealth_Implementation() {
-	health += 33;
+	health += 33/2;
 }
 
 void AShooterCharacter::ClientRemoveHealth_Implementation() {
-	health -= 33;
+	health -= 33/2;
 	
 }
 

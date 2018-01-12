@@ -3,9 +3,11 @@
 #include "Shooter.h"
 #include "ShooterCharacter.h"
 #include "MagazineLoad.h"
+#include <string>
 #include "Net/UnrealNetwork.h"
 #include "Runtime/Engine/Classes/Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Runtime/Core/Public/Containers/UnrealString.h"
 
 
 // Sets default values
@@ -37,11 +39,15 @@ ASniperProjectile::ASniperProjectile()
 
 	// Die after 3 seconds by default
 	InitialLifeSpan = 3.0f;
+
+	//team/ids
 }
 
 
 void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, FVector NormalImpulse, const FHitResult & Hit)
 {
+
+
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
@@ -52,14 +58,19 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 	if (OtherActor->IsA<AShooterCharacter>()) {
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
 
-		Destroy();
-		if (!once && playerOwnerID != HitMan->playerID) {
+		if (playerOwnerID == HitMan->playerID || FString(playerOwnerTeam).Equals(FString(HitMan->teamName))) {
+			if (playerOwnerTeam.Equals("Free") && playerOwnerID != HitMan->playerID) {
+				HitMan->removeHealth();
+				Destroy();
+			}
+		}
+		else {
 			HitMan->removeHealth();
-			once = true;
+			Destroy();
 		}
 
 	}
-	//Destroy();
+	Destroy();
 }
 
 void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
@@ -68,6 +79,8 @@ void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > &
 
 	DOREPLIFETIME(ASniperProjectile, CollisionComp);
 	DOREPLIFETIME(ASniperProjectile, ProjectileMovement);
+	DOREPLIFETIME(ASniperProjectile, playerOwnerID);
+	DOREPLIFETIME(ASniperProjectile, playerOwnerTeam);
 
 }
 

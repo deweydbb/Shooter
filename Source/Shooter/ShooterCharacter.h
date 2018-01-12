@@ -25,12 +25,20 @@ class AShooterCharacter : public ACharacter
 public:
 	AShooterCharacter();
 
+	
+
 	MagazineLoad mag;
 
 	class USkeletalMeshComponent* PlayerMesh;
 
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		int playerID;
+
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
+		FString nickName;
+
+	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
+		FString teamName;
 
 
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
@@ -103,7 +111,7 @@ public:
 	UFUNCTION(NetMultiCast, Reliable)
 		void ClientRemoveHealth();
 
-	UPROPERTY(Replicated)
+	UPROPERTY(Replicated, BlueprintReadWrite)
 		FRotator SpawnRotation;
 protected:
 

@@ -30,6 +30,9 @@ public:
 
 	UPROPERTY(Replicated)
 	int playerOwnerID;
+
+	UPROPERTY(Replicated)
+		FString playerOwnerTeam;
 	
 	/**called when projectile collides*/
 	UFUNCTION()
