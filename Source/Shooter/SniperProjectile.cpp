@@ -32,8 +32,8 @@ ASniperProjectile::ASniperProjectile()
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 4000.f;
-	ProjectileMovement->MaxSpeed = 5000.f;
+	ProjectileMovement->InitialSpeed = 7000.f;
+	ProjectileMovement->MaxSpeed = 8000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
 
@@ -57,6 +57,8 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 
 	if (OtherActor->IsA<AShooterCharacter>()) {
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
+
+		UE_LOG(LogTemp, Warning, TEXT("is same team: %s"), (FString(playerOwnerTeam).Equals(FString(HitMan->teamName)) ? TEXT("True") : TEXT("False")));
 
 		if (playerOwnerID == HitMan->playerID || FString(playerOwnerTeam).Equals(FString(HitMan->teamName))) {
 			if (playerOwnerTeam.Equals("Free") && playerOwnerID != HitMan->playerID) {

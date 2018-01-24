@@ -133,11 +133,11 @@ void AShooterCharacter::ServerFire_Implementation()
 					Projectile->playerOwnerID = playerID;
 					Projectile->playerOwnerTeam = teamName;
 				}
-				UE_LOG(LogTemp, Warning, TEXT("PlayerID: %d"), playerID);
-				UE_LOG(LogTemp, Warning, TEXT("ProjectileOwnerID: %d"), Projectile->playerOwnerID);
-				UE_LOG(LogTemp, Warning, TEXT("PLayerTeam: %s"), *teamName);
-				UE_LOG(LogTemp, Warning, TEXT("ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
-
+				UE_LOG(LogTemp, Warning, TEXT("Server PlayerID: %d"), playerID);
+				UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerID: %d"), Projectile->playerOwnerID);
+				UE_LOG(LogTemp, Warning, TEXT("Server PlayerTeam: %s"), *teamName);
+				UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
+				
 				
 			}
 		}
@@ -177,7 +177,10 @@ void AShooterCharacter::OutwardFire_Implementation()
 					Projectile->playerOwnerID = playerID;
 					Projectile->playerOwnerTeam = teamName;
 
-					//fProjectile->parentActor = this;
+					UE_LOG(LogTemp, Warning, TEXT("Client PlayerID: %d"), playerID);
+					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerID: %d"), Projectile->playerOwnerID);
+					UE_LOG(LogTemp, Warning, TEXT("Client PlayerTeam: %s"), *teamName);
+					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
 			}
 		}
 	}
@@ -246,4 +249,6 @@ void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > 
 	DOREPLIFETIME(AShooterCharacter, FP_MuzzleLocation);
 	DOREPLIFETIME(AShooterCharacter, ProjectileClass);
 	DOREPLIFETIME(AShooterCharacter, CurrBullets);
+	DOREPLIFETIME(AShooterCharacter, nickName);
+	DOREPLIFETIME(AShooterCharacter, teamName);
 }

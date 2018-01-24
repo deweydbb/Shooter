@@ -16,11 +16,12 @@ class SHOOTER_API UBlueprintTextReader : public UBlueprintFunctionLibrary
 
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "save")
-		static bool FileSaveString(FString SaveTextB, FString FileNameB);
 
-	UFUNCTION(BlueprintPure, Category = "save")
-		static bool FileLoadString(FString FileNameA, FString& SaveTextA);
+	UFUNCTION(BlueprintPure, Category = "Custom", meta = (Keywords = "LoadTxt"))
+		static bool LoadTxt(FString FileNameA, FString& SaveTextA);
+
+	UFUNCTION(BlueprintCallable, Category = "Custom", meta = (Keywords = "SaveTxt"))
+		static bool SaveTxt(FString SaveTextB, FString FileNameB);
 	
 	
 	
