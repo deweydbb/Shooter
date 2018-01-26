@@ -25,11 +25,14 @@ public:
 	ASniperProjectile();
 
 	void Fire();
+	
 
 	bool once;
 
 	UPROPERTY(Replicated)
 	int playerOwnerID;
+
+	FString playerOwnerName;
 
 	UPROPERTY(Replicated)
 		FString playerOwnerTeam;

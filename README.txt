@@ -270,3 +270,10 @@ C++ Changes:
 	turns out it only is reading the team from one .txt which is giving them the same team names hence no damage.
 	whats weird is that they can still write the the .txt. tried setting it on both server and client and in construction
 	strip with no luck
+
+1/25/17
+C++ Changes: 
+	On hit, projectile passes player owner name to the player hit. Then in blueprints sets text to last killed by "nickname"
+	when the player dies. 
+Widget Changes:
+	Been working on teams for last two weeks, got the widgets mostly working

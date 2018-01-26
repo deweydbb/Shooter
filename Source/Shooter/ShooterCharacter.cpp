@@ -68,6 +68,7 @@ AShooterCharacter::AShooterCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	team = true;
+	hitByLast = "";
 }
 
 int AShooterCharacter::getHealth()
@@ -132,6 +133,7 @@ void AShooterCharacter::ServerFire_Implementation()
 				if (Projectile) {
 					Projectile->playerOwnerID = playerID;
 					Projectile->playerOwnerTeam = teamName;
+					Projectile->playerOwnerName = nickName;
 				}
 				UE_LOG(LogTemp, Warning, TEXT("Server PlayerID: %d"), playerID);
 				UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerID: %d"), Projectile->playerOwnerID);
@@ -176,6 +178,7 @@ void AShooterCharacter::OutwardFire_Implementation()
 					ASniperProjectile* Projectile = World->SpawnActor<ASniperProjectile>(ProjectileClass, gunOffset, SpawnRotation, ActorSpawnParams);
 					Projectile->playerOwnerID = playerID;
 					Projectile->playerOwnerTeam = teamName;
+					Projectile->playerOwnerName = nickName;
 
 					UE_LOG(LogTemp, Warning, TEXT("Client PlayerID: %d"), playerID);
 					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerID: %d"), Projectile->playerOwnerID);
@@ -185,6 +188,7 @@ void AShooterCharacter::OutwardFire_Implementation()
 		}
 	}
 }
+
 
 void AShooterCharacter::removeHealth() {
 	if (Role == ROLE_AutonomousProxy) {
@@ -234,6 +238,8 @@ void AShooterCharacter::ClientRemoveHealth_Implementation() {
 	health -= 33/2;
 	
 }
+
+
 
 
 void AShooterCharacter::Reload()

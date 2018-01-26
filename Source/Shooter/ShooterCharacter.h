@@ -25,8 +25,6 @@ class AShooterCharacter : public ACharacter
 public:
 	AShooterCharacter();
 
-	
-
 	MagazineLoad mag;
 
 	class USkeletalMeshComponent* PlayerMesh;
@@ -40,6 +38,12 @@ public:
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		FString teamName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString hitByLast;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FString lastKilledBy;
 
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		float health;
