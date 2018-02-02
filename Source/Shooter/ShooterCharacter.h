@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString lastKilledBy;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int killStreak;
+
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		float health;
 

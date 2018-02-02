@@ -277,3 +277,9 @@ C++ Changes:
 	when the player dies. 
 Widget Changes:
 	Been working on teams for last two weeks, got the widgets mostly working
+
+1/30/18
+Workday for sam to catch up from lead trip
+
+2/1/18
+Recorded sounds for game, including voice acting from chares, and sound effects like gunshots, ladder climbing, and footsteps

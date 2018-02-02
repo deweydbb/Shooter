@@ -69,6 +69,7 @@ AShooterCharacter::AShooterCharacter()
 
 	team = true;
 	hitByLast = "";
+	killStreak = 0;
 }
 
 int AShooterCharacter::getHealth()
