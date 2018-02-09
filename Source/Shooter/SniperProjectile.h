@@ -30,9 +30,10 @@ public:
 	bool once;
 
 	UPROPERTY(Replicated)
-	int playerOwnerID;
+		int playerOwnerID;
 
-	FString playerOwnerName;
+	UPROPERTY(Replicated)
+		FString playerOwnerName;
 
 	UPROPERTY(Replicated)
 		FString playerOwnerTeam;

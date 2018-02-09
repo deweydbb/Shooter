@@ -69,6 +69,7 @@ AShooterCharacter::AShooterCharacter()
 
 	team = true;
 	hitByLast = "";
+	lastKilledBy = "";
 	killStreak = 0;
 }
 
@@ -76,6 +77,8 @@ int AShooterCharacter::getHealth()
 {
 	return health;
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////
 // Input
@@ -180,6 +183,7 @@ void AShooterCharacter::OutwardFire_Implementation()
 					Projectile->playerOwnerID = playerID;
 					Projectile->playerOwnerTeam = teamName;
 					Projectile->playerOwnerName = nickName;
+					playSoundOnHit();
 
 					UE_LOG(LogTemp, Warning, TEXT("Client PlayerID: %d"), playerID);
 					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerID: %d"), Projectile->playerOwnerID);
@@ -192,11 +196,15 @@ void AShooterCharacter::OutwardFire_Implementation()
 
 
 void AShooterCharacter::removeHealth() {
+	
 	if (Role == ROLE_AutonomousProxy) {
 		ServerRemoveHealth();
 	}
 	else {
 		ClientRemoveHealth();
+	}
+	if (health < 0) {
+		lastKilledBy = hitByLast;
 	}
 }
 
@@ -211,9 +219,11 @@ void AShooterCharacter::addHealth() {
 }
 
 void AShooterCharacter::ServerRemoveHealth_Implementation() {
-	health -= 33/2;
+	health -= 33;
 	if (health < 0) {
 		isDead = true;
+		//lastKilledBy = hitByLast;
+		killStreak = 0;
 	}
 	ClientRemoveHealth();
 }
@@ -223,7 +233,7 @@ bool AShooterCharacter::ServerRemoveHealth_Validate() {
 }
 
 void AShooterCharacter::ServeraddHealth_Implementation() {
-	health += 33/2;
+	health += 33;
 	ClientAddHealth();
 }
 
@@ -232,11 +242,15 @@ bool AShooterCharacter::ServeraddHealth_Validate() {
 }
 
 void AShooterCharacter::ClientAddHealth_Implementation() {
-	health += 33/2;
+	//health += 33/2;
 }
 
 void AShooterCharacter::ClientRemoveHealth_Implementation() {
-	health -= 33/2;
+	//health -= 33/2;
+	if (health < 0) {
+		//lastKilledBy = hitByLast;
+		killStreak = 0;
+	}
 	
 }
 
@@ -258,4 +272,6 @@ void AShooterCharacter::GetLifetimeReplicatedProps(TArray < FLifetimeProperty > 
 	DOREPLIFETIME(AShooterCharacter, CurrBullets);
 	DOREPLIFETIME(AShooterCharacter, nickName);
 	DOREPLIFETIME(AShooterCharacter, teamName);
+	DOREPLIFETIME(AShooterCharacter, hitByLast);
+	DOREPLIFETIME(AShooterCharacter, lastKilledBy);
 }

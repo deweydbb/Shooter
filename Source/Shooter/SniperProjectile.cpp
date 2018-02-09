@@ -39,6 +39,7 @@ ASniperProjectile::ASniperProjectile()
 
 	// Die after 3 seconds by default
 	InitialLifeSpan = 3.0f;
+	playerOwnerName = "";
 
 	//team/ids
 }
@@ -57,6 +58,7 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 
 	if (OtherActor->IsA<AShooterCharacter>()) {
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
+		//AShooterCharacter* OwnerPlayer = Cast<AShooterCharacter>(GetInstigator());
 
 		UE_LOG(LogTemp, Warning, TEXT("is same team: %s"), (FString(playerOwnerTeam).Equals(FString(HitMan->teamName)) ? TEXT("True") : TEXT("False")));
 
@@ -64,11 +66,15 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 			if (playerOwnerTeam.Equals("Free") && playerOwnerID != HitMan->playerID) {
 				HitMan->removeHealth();
 				HitMan->hitByLast = playerOwnerName;
+				//AShooterCharacter * Player = get(AShooterCharacter, id: playerOwnerID);
+				//GetInstigator()->playSoundOnHit();
 				Destroy();
 			}
 		}
 		else {
 			HitMan->removeHealth();
+			HitMan->hitByLast = playerOwnerName;
+			//OwnerPlayer->playSoundOnHit();
 			Destroy();
 		}
 
@@ -85,6 +91,7 @@ void ASniperProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > &
 	DOREPLIFETIME(ASniperProjectile, ProjectileMovement);
 	DOREPLIFETIME(ASniperProjectile, playerOwnerID);
 	DOREPLIFETIME(ASniperProjectile, playerOwnerTeam);
+	DOREPLIFETIME(ASniperProjectile, playerOwnerName);
 
 }
 

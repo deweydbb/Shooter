@@ -38,14 +38,13 @@ public:
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
 		FString teamName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 		FString hitByLast;
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 		FString lastKilledBy;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 		int killStreak;
 
 	UPROPERTY(EditAnywhere, Replicated, BlueprintReadWrite)
@@ -61,6 +60,9 @@ public:
 
 	UFUNCTION()
 		int getHealth();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void playSoundOnHit();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Magazine)
 		bool ableToFire;
