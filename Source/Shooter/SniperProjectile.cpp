@@ -65,7 +65,7 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 		if (playerOwnerID == HitMan->playerID || FString(playerOwnerTeam).Equals(FString(HitMan->teamName))) {
 			if (playerOwnerTeam.Equals("Free") && playerOwnerID != HitMan->playerID) {
 				HitMan->removeHealth();
-				HitMan->hitByLast = playerOwnerName;
+				HitMan->hitByLast = playerOwnerID;
 				//AShooterCharacter * Player = get(AShooterCharacter, id: playerOwnerID);
 				//GetInstigator()->playSoundOnHit();
 				Destroy();
@@ -73,7 +73,7 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 		}
 		else {
 			HitMan->removeHealth();
-			HitMan->hitByLast = playerOwnerName;
+			HitMan->hitByLast = playerOwnerID;
 			//OwnerPlayer->playSoundOnHit();
 			Destroy();
 		}

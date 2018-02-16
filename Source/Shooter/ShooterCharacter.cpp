@@ -68,8 +68,7 @@ AShooterCharacter::AShooterCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	team = true;
-	hitByLast = "";
-	lastKilledBy = "";
+
 	killStreak = 0;
 }
 
@@ -139,10 +138,10 @@ void AShooterCharacter::ServerFire_Implementation()
 					Projectile->playerOwnerTeam = teamName;
 					Projectile->playerOwnerName = nickName;
 				}
-				UE_LOG(LogTemp, Warning, TEXT("Server PlayerID: %d"), playerID);
-				UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerID: %d"), Projectile->playerOwnerID);
-				UE_LOG(LogTemp, Warning, TEXT("Server PlayerTeam: %s"), *teamName);
-				UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
+				//UE_LOG(LogTemp, Warning, TEXT("Server PlayerID: %d"), playerID);
+				//UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerID: %d"), Projectile->playerOwnerID);
+				//UE_LOG(LogTemp, Warning, TEXT("Server PlayerTeam: %s"), *teamName);
+				//UE_LOG(LogTemp, Warning, TEXT("Server ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
 				
 				
 			}
@@ -185,10 +184,10 @@ void AShooterCharacter::OutwardFire_Implementation()
 					Projectile->playerOwnerName = nickName;
 					playSoundOnHit();
 
-					UE_LOG(LogTemp, Warning, TEXT("Client PlayerID: %d"), playerID);
-					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerID: %d"), Projectile->playerOwnerID);
-					UE_LOG(LogTemp, Warning, TEXT("Client PlayerTeam: %s"), *teamName);
-					UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
+					//UE_LOG(LogTemp, Warning, TEXT("Client PlayerID: %d"), playerID);
+					//UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerID: %d"), Projectile->playerOwnerID);
+					//UE_LOG(LogTemp, Warning, TEXT("Client PlayerTeam: %s"), *teamName);
+					//UE_LOG(LogTemp, Warning, TEXT("Client ProjectileOwnerTeam: %s"), *Projectile->playerOwnerTeam);
 			}
 		}
 	}
@@ -199,12 +198,15 @@ void AShooterCharacter::removeHealth() {
 	
 	if (Role == ROLE_AutonomousProxy) {
 		ServerRemoveHealth();
+		if (health < 0) {
+			lastKilledBy = hitByLast;
+		}
 	}
 	else {
 		ClientRemoveHealth();
-	}
-	if (health < 0) {
-		lastKilledBy = hitByLast;
+		if (health < 0) {
+			lastKilledBy = hitByLast;
+		}
 	}
 }
 

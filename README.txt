@@ -288,3 +288,7 @@ Recorded sounds for game, including voice acting from chares, and sound effects 
 Since 2/1 we'ev worked on editing down the sounds into usable snippits and then worked on implementing them into game. Footsteps play
 at two rates depending on whether the player is sprinting or walking. We are also trying to get last killed by to work correctly, but
 failing.
+
+2/13/17
+We gave up on last killed by, and focused on cleaning up the game, and commenting the code.
+Added logo to our game, added credits

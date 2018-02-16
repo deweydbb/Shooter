@@ -39,10 +39,10 @@ public:
 		FString teamName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
-		FString hitByLast;
+		int hitByLast;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
-		FString lastKilledBy;
+		int lastKilledBy;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
 		int killStreak;
