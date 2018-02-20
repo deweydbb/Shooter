@@ -60,7 +60,7 @@ void ASniperProjectile::OnHit(UPrimitiveComponent * HitComp, AActor * OtherActor
 		AShooterCharacter* HitMan = Cast<AShooterCharacter>(OtherActor);
 		//AShooterCharacter* OwnerPlayer = Cast<AShooterCharacter>(GetInstigator());
 
-		UE_LOG(LogTemp, Warning, TEXT("is same team: %s"), (FString(playerOwnerTeam).Equals(FString(HitMan->teamName)) ? TEXT("True") : TEXT("False")));
+		//UE_LOG(LogTemp, Warning, TEXT("is same team: %s"), (FString(playerOwnerTeam).Equals(FString(HitMan->teamName)) ? TEXT("True") : TEXT("False")));
 
 		if (playerOwnerID == HitMan->playerID || FString(playerOwnerTeam).Equals(FString(HitMan->teamName))) {
 			if (playerOwnerTeam.Equals("Free") && playerOwnerID != HitMan->playerID) {
